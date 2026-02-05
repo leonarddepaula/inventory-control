@@ -84,4 +84,14 @@ public class ProductController {
         List<ProductionSuggestionDTO> suggestions = productService.getProductionSuggestions();
         return ResponseEntity.ok(suggestions);
     }
+
+    @PostMapping("/produce")
+    public ResponseEntity<Void> produceProduct(@RequestParam Long productId, @RequestParam Integer quantity) {
+        try {
+            productService.produceProduct(productId, quantity);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }

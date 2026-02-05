@@ -78,8 +78,9 @@ public class Product {
     
     public void addRawMaterial(RawMaterial rawMaterial, Integer quantity) {
         ProductRawMaterial productRawMaterial = new ProductRawMaterial(this, rawMaterial, quantity);
-        productRawMaterials.add(productRawMaterial);
-        rawMaterial.getProductRawMaterials().add(productRawMaterial);
+        if (productRawMaterials.add(productRawMaterial)) {
+            rawMaterial.getProductRawMaterials().add(productRawMaterial);
+        }
     }
     
     public void removeRawMaterial(RawMaterial rawMaterial) {
@@ -90,14 +91,14 @@ public class Product {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Product)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return getId() != null && getId().equals(product.getId());
+        return id != null && id.equals(product.id);
     }
-    
+
     @Override
     public int hashCode() {
-        return getClass().hashCode();
+        return 31;
     }
     
     @Override

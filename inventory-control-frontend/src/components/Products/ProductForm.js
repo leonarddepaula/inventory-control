@@ -73,11 +73,22 @@ const ProductForm = () => {
 
   const onSubmit = async (data) => {
     try {
+      // Transform data to ensure correct types
+      const transformedData = {
+        ...data,
+        value: parseFloat(data.value),
+        rawMaterials: data.rawMaterials?.map(rm => ({
+          rawMaterialId: parseInt(rm.rawMaterialId, 10),
+          rawMaterialName: rm.rawMaterialName,
+          quantity: parseInt(rm.quantity, 10)
+        })).filter(rm => !isNaN(rm.rawMaterialId)) || []
+      };
+
       if (isEditing) {
-        await dispatch(updateProduct({ id, productData: data })).unwrap();
+        await dispatch(updateProduct({ id, productData: transformedData })).unwrap();
         toast.success("Product updated successfully");
       } else {
-        await dispatch(createProduct(data)).unwrap();
+        await dispatch(createProduct(transformedData)).unwrap();
         toast.success("Product created successfully");
       }
       navigate("/products");
