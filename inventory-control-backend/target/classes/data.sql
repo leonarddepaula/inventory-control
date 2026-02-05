@@ -3,23 +3,23 @@
 -- Create tables (handled by Hibernate DDL, but included here for reference)
 
 -- Insert sample raw materials
-INSERT INTO raw_materials (name, stock_quantity) VALUES
-('Steel', 1000),
-('Plastic', 500),
-('Rubber', 300),
-('Glass', 200),
-('Aluminum', 150),
-('Cotton', 800),
-('Wood', 600),
-('Copper', 100);
+INSERT INTO raw_materials (code, name, stock_quantity) VALUES
+('MAT-001', 'Steel', 1000),
+('MAT-002', 'Plastic', 500),
+('MAT-003', 'Rubber', 300),
+('MAT-004', 'Glass', 200),
+('MAT-005', 'Aluminum', 150),
+('MAT-006', 'Cotton', 800),
+('MAT-007', 'Wood', 600),
+('MAT-008', 'Copper', 100);
 
 -- Insert sample products
-INSERT INTO products (name, value) VALUES
-('Car Wheel', 250.00),
-('Smartphone Case', 15.50),
-('Office Chair', 180.00),
-('Water Bottle', 12.00),
-('Laptop Stand', 45.00);
+INSERT INTO products (code, name, value) VALUES
+('PROD-001', 'Car Wheel', 250.00),
+('PROD-002', 'Smartphone Case', 15.50),
+('PROD-003', 'Office Chair', 180.00),
+('PROD-004', 'Water Bottle', 12.00),
+('PROD-005', 'Laptop Stand', 45.00);
 
 -- Insert product-raw material associations
 -- Car Wheel: Steel (5kg), Rubber (2kg), Aluminum (1kg)

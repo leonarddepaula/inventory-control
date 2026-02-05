@@ -40,6 +40,7 @@ const ProductForm = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
+      code: "",
       name: "",
       value: "",
       rawMaterials: [],
@@ -65,6 +66,7 @@ const ProductForm = () => {
 
   useEffect(() => {
     if (isEditing && currentProduct) {
+      setValue("code", currentProduct.code);
       setValue("name", currentProduct.name);
       setValue("value", currentProduct.value);
       setValue("rawMaterials", currentProduct.rawMaterials || []);
@@ -154,7 +156,24 @@ const ProductForm = () => {
         <Card.Body>
           <Form onSubmit={handleSubmit(onSubmit)}>
             <Row>
-              <Col md={6}>
+              <Col md={4}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Product Code</Form.Label>
+                  <Form.Control
+                    type="text"
+                    {...register("code", {
+                      required: "Product code is required",
+                    })}
+                    isInvalid={errors.code}
+                    placeholder="Enter product code"
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.code?.message}
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+
+              <Col md={4}>
                 <Form.Group className="mb-3">
                   <Form.Label>Product Name</Form.Label>
                   <Form.Control
@@ -171,7 +190,7 @@ const ProductForm = () => {
                 </Form.Group>
               </Col>
 
-              <Col md={6}>
+              <Col md={4}>
                 <Form.Group className="mb-3">
                   <Form.Label>Product Value ($)</Form.Label>
                   <Form.Control

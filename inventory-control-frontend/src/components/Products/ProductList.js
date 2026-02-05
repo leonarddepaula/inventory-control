@@ -15,7 +15,6 @@ import { toast } from "react-toastify";
 import {
   fetchProducts,
   deleteProduct,
-  searchProducts,
 } from "../../features/products/productsSlice";
 
 const ProductList = () => {
@@ -26,6 +25,16 @@ const ProductList = () => {
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);
+
+  // Filtro local instantâneo por código ou nome
+  const filteredProducts = products.filter((product) => {
+    if (!searchTerm.trim()) return true;
+    const searchLower = searchTerm.toLowerCase();
+    return (
+      product.name?.toLowerCase().includes(searchLower) ||
+      product.code?.toLowerCase().includes(searchLower)
+    );
+  });
 
   const handleDelete = async (id, name) => {
     if (window.confirm(`Are you sure you want to delete "${name}"?`)) {
@@ -38,18 +47,8 @@ const ProductList = () => {
     }
   };
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (searchTerm.trim()) {
-      dispatch(searchProducts(searchTerm));
-    } else {
-      dispatch(fetchProducts());
-    }
-  };
-
   const clearSearch = () => {
     setSearchTerm("");
-    dispatch(fetchProducts());
   };
 
   if (loading) {
@@ -81,40 +80,37 @@ const ProductList = () => {
         <Card.Header>
           <div className="d-flex justify-content-between align-items-center">
             <h5 className="mb-0">Product List</h5>
-            <Form onSubmit={handleSearch} className="d-flex">
-              <InputGroup>
-                <Form.Control
-                  type="text"
-                  placeholder="Search products..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-                <Button type="submit" variant="outline-primary">
-                  <i className="fas fa-search"></i>
+            <InputGroup style={{ maxWidth: '300px' }}>
+              <Form.Control
+                type="text"
+                placeholder="Search by code or name..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              {searchTerm && (
+                <Button onClick={clearSearch} variant="outline-secondary">
+                  <i className="fas fa-times"></i>
                 </Button>
-                {searchTerm && (
-                  <Button onClick={clearSearch} variant="outline-secondary">
-                    <i className="fas fa-times"></i>
-                  </Button>
-                )}
-              </InputGroup>
-            </Form>
+              )}
+            </InputGroup>
           </div>
         </Card.Header>
         <Card.Body>
-          {products.length === 0 ? (
+          {filteredProducts.length === 0 ? (
             <div className="empty-state">
               <i className="fas fa-box"></i>
-              <p>No products found</p>
-              <Button as={Link} to="/products/new" variant="primary">
-                Create First Product
-              </Button>
+              <p>{searchTerm ? "No products match your search" : "No products found"}</p>
+              {!searchTerm && (
+                <Button as={Link} to="/products/new" variant="primary">
+                  Create First Product
+                </Button>
+              )}
             </div>
           ) : (
             <Table responsive hover>
               <thead>
                 <tr>
-                  <th>ID</th>
+                  <th>Code</th>
                   <th>Name</th>
                   <th>Value</th>
                   <th>Raw Materials</th>
@@ -122,12 +118,12 @@ const ProductList = () => {
                 </tr>
               </thead>
               <tbody>
-                {products.map((product) => (
+                {filteredProducts.map((product) => (
                   <tr key={product.id}>
-                    <td>{product.id}</td>
                     <td>
-                      <strong>{product.name}</strong>
+                      <strong>{product.code}</strong>
                     </td>
+                    <td>{product.name}</td>
                     <td>
                       <span className="value-highlight">${product.value}</span>
                     </td>

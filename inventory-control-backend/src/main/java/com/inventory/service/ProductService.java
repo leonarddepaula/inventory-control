@@ -51,7 +51,7 @@ public class ProductService {
     }
 
     public ProductDTO createProduct(ProductDTO productDTO) {
-        Product product = new Product(productDTO.getName(), productDTO.getValue());
+        Product product = new Product(productDTO.getCode(), productDTO.getName(), productDTO.getValue());
         Product savedProduct = productRepository.save(product);
         
         // Save raw materials associations after product is saved (has ID)
@@ -78,6 +78,7 @@ public class ProductService {
     public Optional<ProductDTO> updateProduct(Long id, ProductDTO productDTO) {
         return productRepository.findById(id)
                 .map(existingProduct -> {
+                    existingProduct.setCode(productDTO.getCode());
                     existingProduct.setName(productDTO.getName());
                     existingProduct.setValue(productDTO.getValue());
                     
@@ -131,6 +132,7 @@ public class ProductService {
                 BigDecimal totalValue = product.getValue().multiply(BigDecimal.valueOf(maxQuantity));
                 suggestions.add(new ProductionSuggestionDTO(
                         product.getId(),
+                        product.getCode(),
                         product.getName(),
                         product.getValue(),
                         maxQuantity,
@@ -232,8 +234,8 @@ public class ProductService {
     }
 
     private ProductDTO convertToDTO(Product product) {
-        ProductDTO dto = new ProductDTO(product.getId(), product.getName(), product.getValue());
-        
+        ProductDTO dto = new ProductDTO(product.getId(), product.getCode(), product.getName(), product.getValue());
+
         List<ProductRawMaterialDTO> rawMaterialDTOs = product.getProductRawMaterials()
                 .stream()
                 .map(prm -> new ProductRawMaterialDTO(
@@ -250,7 +252,7 @@ public class ProductService {
     }
 
     private Product convertToEntity(ProductDTO dto) {
-        Product product = new Product(dto.getName(), dto.getValue());
+        Product product = new Product(dto.getCode(), dto.getName(), dto.getValue());
         if (dto.getId() != null) {
             product.setId(dto.getId());
         }

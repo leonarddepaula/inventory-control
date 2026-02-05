@@ -24,6 +24,10 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+    @NotBlank(message = "Product code is required")
+    @Column(nullable = false, unique = true)
+    private String code;
+
     @NotBlank(message = "Product name is required")
     @Column(nullable = false)
     private String name;
@@ -38,7 +42,8 @@ public class Product {
     
     public Product() {}
     
-    public Product(String name, BigDecimal value) {
+    public Product(String code, String name, BigDecimal value) {
+        this.code = code;
         this.name = name;
         this.value = value;
     }
@@ -52,6 +57,14 @@ public class Product {
         this.id = id;
     }
     
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     public String getName() {
         return name;
     }

@@ -8,6 +8,9 @@ public class RawMaterialDTO {
     
     private Long id;
     
+    @NotBlank(message = "Raw material code is required")
+    private String code;
+
     @NotBlank(message = "Raw material name is required")
     private String name;
     
@@ -17,13 +20,15 @@ public class RawMaterialDTO {
     
     public RawMaterialDTO() {}
     
-    public RawMaterialDTO(String name, Integer stockQuantity) {
+    public RawMaterialDTO(String code, String name, Integer stockQuantity) {
+        this.code = code;
         this.name = name;
         this.stockQuantity = stockQuantity;
     }
     
-    public RawMaterialDTO(Long id, String name, Integer stockQuantity) {
+    public RawMaterialDTO(Long id, String code, String name, Integer stockQuantity) {
         this.id = id;
+        this.code = code;
         this.name = name;
         this.stockQuantity = stockQuantity;
     }
@@ -37,6 +42,14 @@ public class RawMaterialDTO {
         this.id = id;
     }
     
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     public String getName() {
         return name;
     }
@@ -57,6 +70,7 @@ public class RawMaterialDTO {
     public String toString() {
         return "RawMaterialDTO{" +
                 "id=" + id +
+                ", code='" + code + '\'' +
                 ", name='" + name + '\'' +
                 ", stockQuantity=" + stockQuantity +
                 '}';

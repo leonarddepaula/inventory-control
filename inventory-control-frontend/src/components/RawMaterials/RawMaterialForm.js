@@ -28,6 +28,7 @@ const RawMaterialForm = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
+      code: "",
       name: "",
       stockQuantity: "",
     },
@@ -45,6 +46,7 @@ const RawMaterialForm = () => {
 
   useEffect(() => {
     if (isEditing && currentRawMaterial) {
+      setValue("code", currentRawMaterial.code);
       setValue("name", currentRawMaterial.name);
       setValue("stockQuantity", currentRawMaterial.stockQuantity);
     }
@@ -116,6 +118,24 @@ const RawMaterialForm = () => {
             </Card.Header>
             <Card.Body>
               <Form onSubmit={handleSubmit(onSubmit)}>
+                <Form.Group className="mb-3">
+                  <Form.Label>
+                    <i className="fas fa-barcode me-1"></i>
+                    Raw Material Code
+                  </Form.Label>
+                  <Form.Control
+                    type="text"
+                    {...register("code", {
+                      required: "Raw material code is required",
+                    })}
+                    isInvalid={errors.code}
+                    placeholder="Enter raw material code (e.g., MAT-001)"
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.code?.message}
+                  </Form.Control.Feedback>
+                </Form.Group>
+
                 <Form.Group className="mb-3">
                   <Form.Label>
                     <i className="fas fa-tag me-1"></i>

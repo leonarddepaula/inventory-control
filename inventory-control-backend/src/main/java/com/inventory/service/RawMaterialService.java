@@ -60,6 +60,7 @@ public class RawMaterialService {
     public Optional<RawMaterialDTO> updateRawMaterial(Long id, RawMaterialDTO rawMaterialDTO) {
         return rawMaterialRepository.findById(id)
                 .map(existingRawMaterial -> {
+                    existingRawMaterial.setCode(rawMaterialDTO.getCode());
                     existingRawMaterial.setName(rawMaterialDTO.getName());
                     existingRawMaterial.setStockQuantity(rawMaterialDTO.getStockQuantity());
                     RawMaterial savedRawMaterial = rawMaterialRepository.save(existingRawMaterial);
@@ -87,13 +88,14 @@ public class RawMaterialService {
     private RawMaterialDTO convertToDTO(RawMaterial rawMaterial) {
         return new RawMaterialDTO(
                 rawMaterial.getId(),
+                rawMaterial.getCode(),
                 rawMaterial.getName(),
                 rawMaterial.getStockQuantity()
         );
     }
 
     private RawMaterial convertToEntity(RawMaterialDTO dto) {
-        RawMaterial rawMaterial = new RawMaterial(dto.getName(), dto.getStockQuantity());
+        RawMaterial rawMaterial = new RawMaterial(dto.getCode(), dto.getName(), dto.getStockQuantity());
         if (dto.getId() != null) {
             rawMaterial.setId(dto.getId());
         }

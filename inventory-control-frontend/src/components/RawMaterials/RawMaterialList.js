@@ -16,7 +16,6 @@ import { toast } from "react-toastify";
 import {
   fetchRawMaterials,
   deleteRawMaterial,
-  searchRawMaterials,
   updateStockQuantity,
   fetchRawMaterialsWithStock,
   fetchRawMaterialsOutOfStock,
@@ -51,18 +50,18 @@ const RawMaterialList = () => {
     handleFilterChange("all");
   }, [handleFilterChange]);
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (searchTerm.trim()) {
-      dispatch(searchRawMaterials(searchTerm));
-    } else {
-      handleFilterChange(filter);
-    }
-  };
+  // Filtro local instantâneo por código ou nome
+  const filteredMaterials = rawMaterials.filter((material) => {
+    if (!searchTerm.trim()) return true;
+    const searchLower = searchTerm.toLowerCase();
+    return (
+      material.name?.toLowerCase().includes(searchLower) ||
+      material.code?.toLowerCase().includes(searchLower)
+    );
+  });
 
   const clearSearch = () => {
     setSearchTerm("");
-    handleFilterChange(filter);
   };
 
   const handleDelete = async (id, name) => {
@@ -166,46 +165,43 @@ const RawMaterialList = () => {
               </div>
 
               {/* Search Form */}
-              <Form onSubmit={handleSearch} className="d-flex">
-                <InputGroup>
-                  <Form.Control
-                    type="text"
-                    placeholder="Search materials..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
+              <InputGroup>
+                <Form.Control
+                  type="text"
+                  placeholder="Search by code or name..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  size="sm"
+                />
+                {searchTerm && (
+                  <Button
+                    onClick={clearSearch}
+                    variant="outline-secondary"
                     size="sm"
-                  />
-                  <Button type="submit" variant="outline-primary" size="sm">
-                    <i className="fas fa-search"></i>
+                  >
+                    <i className="fas fa-times"></i>
                   </Button>
-                  {searchTerm && (
-                    <Button
-                      onClick={clearSearch}
-                      variant="outline-secondary"
-                      size="sm"
-                    >
-                      <i className="fas fa-times"></i>
-                    </Button>
-                  )}
-                </InputGroup>
-              </Form>
+                )}
+              </InputGroup>
             </div>
           </div>
         </Card.Header>
         <Card.Body>
-          {rawMaterials.length === 0 ? (
+          {filteredMaterials.length === 0 ? (
             <div className="empty-state">
               <i className="fas fa-cubes"></i>
-              <p>No raw materials found</p>
-              <Button as={Link} to="/raw-materials/new" variant="success">
-                Create First Raw Material
-              </Button>
+              <p>{searchTerm ? "No materials match your search" : "No raw materials found"}</p>
+              {!searchTerm && (
+                <Button as={Link} to="/raw-materials/new" variant="success">
+                  Create First Raw Material
+                </Button>
+              )}
             </div>
           ) : (
             <Table responsive hover>
               <thead>
                 <tr>
-                  <th>ID</th>
+                  <th>Code</th>
                   <th>Name</th>
                   <th>Stock Quantity</th>
                   <th>Status</th>
@@ -213,12 +209,12 @@ const RawMaterialList = () => {
                 </tr>
               </thead>
               <tbody>
-                {rawMaterials.map((material) => (
+                {filteredMaterials.map((material) => (
                   <tr key={material.id}>
-                    <td>{material.id}</td>
                     <td>
-                      <strong>{material.name}</strong>
+                      <strong>{material.code}</strong>
                     </td>
+                    <td>{material.name}</td>
                     <td>
                       <span className="fw-bold">{material.stockQuantity}</span>{" "}
                       units

@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 public class ProductionSuggestionDTO {
     
     private Long productId;
+    private String productCode;
     private String productName;
     private BigDecimal productValue;
     private Integer maxQuantityThatCanBeProduced;
@@ -12,9 +13,10 @@ public class ProductionSuggestionDTO {
     
     public ProductionSuggestionDTO() {}
     
-    public ProductionSuggestionDTO(Long productId, String productName, BigDecimal productValue, 
+    public ProductionSuggestionDTO(Long productId, String productCode, String productName, BigDecimal productValue,
                                    Integer maxQuantityThatCanBeProduced, BigDecimal totalValue) {
         this.productId = productId;
+        this.productCode = productCode;
         this.productName = productName;
         this.productValue = productValue;
         this.maxQuantityThatCanBeProduced = maxQuantityThatCanBeProduced;
@@ -30,6 +32,14 @@ public class ProductionSuggestionDTO {
         this.productId = productId;
     }
     
+    public String getProductCode() {
+        return productCode;
+    }
+
+    public void setProductCode(String productCode) {
+        this.productCode = productCode;
+    }
+
     public String getProductName() {
         return productName;
     }
@@ -66,6 +76,7 @@ public class ProductionSuggestionDTO {
     public String toString() {
         return "ProductionSuggestionDTO{" +
                 "productId=" + productId +
+                ", productCode='" + productCode + '\'' +
                 ", productName='" + productName + '\'' +
                 ", productValue=" + productValue +
                 ", maxQuantityThatCanBeProduced=" + maxQuantityThatCanBeProduced +

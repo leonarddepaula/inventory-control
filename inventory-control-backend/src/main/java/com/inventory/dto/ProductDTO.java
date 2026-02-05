@@ -10,6 +10,9 @@ public class ProductDTO {
     
     private Long id;
     
+    @NotBlank(message = "Product code is required")
+    private String code;
+
     @NotBlank(message = "Product name is required")
     private String name;
     
@@ -21,13 +24,15 @@ public class ProductDTO {
     
     public ProductDTO() {}
     
-    public ProductDTO(String name, BigDecimal value) {
+    public ProductDTO(String code, String name, BigDecimal value) {
+        this.code = code;
         this.name = name;
         this.value = value;
     }
     
-    public ProductDTO(Long id, String name, BigDecimal value) {
+    public ProductDTO(Long id, String code, String name, BigDecimal value) {
         this.id = id;
+        this.code = code;
         this.name = name;
         this.value = value;
     }
@@ -41,6 +46,14 @@ public class ProductDTO {
         this.id = id;
     }
     
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     public String getName() {
         return name;
     }
@@ -69,6 +82,7 @@ public class ProductDTO {
     public String toString() {
         return "ProductDTO{" +
                 "id=" + id +
+                ", code='" + code + '\'' +
                 ", name='" + name + '\'' +
                 ", value=" + value +
                 ", rawMaterials=" + rawMaterials +

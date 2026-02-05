@@ -23,6 +23,10 @@ public class RawMaterial {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+    @NotBlank(message = "Raw material code is required")
+    @Column(nullable = false, unique = true)
+    private String code;
+
     @NotBlank(message = "Raw material name is required")
     @Column(nullable = false)
     private String name;
@@ -37,7 +41,8 @@ public class RawMaterial {
     
     public RawMaterial() {}
     
-    public RawMaterial(String name, Integer stockQuantity) {
+    public RawMaterial(String code, String name, Integer stockQuantity) {
+        this.code = code;
         this.name = name;
         this.stockQuantity = stockQuantity;
     }
@@ -51,6 +56,14 @@ public class RawMaterial {
         this.id = id;
     }
     
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     public String getName() {
         return name;
     }
@@ -92,6 +105,7 @@ public class RawMaterial {
     public String toString() {
         return "RawMaterial{" +
                 "id=" + id +
+                ", code='" + code + '\'' +
                 ", name='" + name + '\'' +
                 ", stockQuantity=" + stockQuantity +
                 '}';

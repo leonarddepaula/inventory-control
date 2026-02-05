@@ -185,12 +185,12 @@ const ProductionSuggestions = () => {
                 <Card.Body className="d-flex flex-column">
                   <div className="d-flex justify-content-between align-items-start mb-3">
                     <div>
+                      <small className="opacity-75 d-block">
+                        {suggestion.productCode}
+                      </small>
                       <h5 className="card-title text-white mb-1">
                         {suggestion.productName}
                       </h5>
-                      <small className="opacity-75">
-                        Product ID: {suggestion.productId}
-                      </small>
                     </div>
                     <Badge bg="light" text="dark" className="quantity-badge">
                       #{index + 1}
