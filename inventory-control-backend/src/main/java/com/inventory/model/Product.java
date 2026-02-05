@@ -9,9 +9,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
@@ -25,15 +27,18 @@ public class Product {
     private Long id;
     
     @NotBlank(message = "Product code is required")
-    @Column(nullable = false, unique = true)
+    @Size(min = 1, max = 20, message = "Code must be between 1 and 20 characters")
+    @Column(nullable = false, unique = true, length = 20)
     private String code;
 
     @NotBlank(message = "Product name is required")
-    @Column(nullable = false)
+    @Size(min = 1, max = 70, message = "Name must be between 1 and 70 characters")
+    @Column(nullable = false, length = 70)
     private String name;
     
     @NotNull(message = "Product value is required")
-    @DecimalMin(value = "0.0", inclusive = false, message = "Product value must be greater than zero")
+    @DecimalMin(value = "0.01", message = "Product value must be greater than zero")
+    @DecimalMax(value = "99999999.99", message = "Product value must be less than 100 million")
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal value;
     

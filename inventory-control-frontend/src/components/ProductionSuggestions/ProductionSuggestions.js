@@ -44,26 +44,26 @@ const ProductionSuggestions = () => {
 
   return (
     <div>
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <div>
-          <h1>
+      <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-2">
+        <div className="mb-2 mb-md-0">
+          <h1 className="d-flex align-items-center flex-wrap">
             <i className="fas fa-lightbulb me-2 text-warning"></i>
-            Production Suggestions
+            <span>Production Suggestions</span>
           </h1>
-          <p className="text-muted mb-0">
+          <p className="text-muted mb-0 d-none d-sm-block">
             Optimized production recommendations based on current inventory
           </p>
         </div>
-        <div>
+        <div className="d-flex flex-wrap gap-2">
           <Button
             variant="outline-primary"
             onClick={handleRefresh}
-            className="me-2"
+            size="sm"
           >
             <i className="fas fa-sync-alt me-1"></i>
             Refresh
           </Button>
-          <Button as={Link} to="/products/new" variant="primary">
+          <Button as={Link} to="/products/new" variant="primary" size="sm">
             <i className="fas fa-plus me-1"></i>
             New Product
           </Button>

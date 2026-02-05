@@ -115,11 +115,11 @@ const RawMaterialList = () => {
 
   return (
     <div>
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h1>Raw Materials</h1>
-        <Button as={Link} to="/raw-materials/new" variant="success">
+      <div className="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center mb-4 gap-2">
+        <h1 className="mb-2 mb-sm-0">Raw Materials</h1>
+        <Button as={Link} to="/raw-materials/new" variant="success" size="sm">
           <i className="fas fa-plus me-1"></i>
-          Add New Raw Material
+          New Material
         </Button>
       </div>
 
@@ -132,40 +132,39 @@ const RawMaterialList = () => {
 
       <Card>
         <Card.Header>
-          <div className="d-flex justify-content-between align-items-center flex-wrap">
+          <div className="d-flex justify-content-between align-items-center flex-wrap gap-2">
             <h5 className="mb-0">Raw Materials List</h5>
-            <div className="d-flex gap-2 align-items-center">
+            <div className="d-flex gap-3 align-items-center flex-wrap">
               {/* Filter Buttons */}
               <div className="btn-group">
                 <Button
-                  variant={filter === "all" ? "primary" : "outline-primary"}
+                  variant={filter === "all" ? "secondary" : "light"}
                   size="sm"
                   onClick={() => handleFilterChange("all")}
+                  style={filter !== "all" ? { border: '1px solid #dee2e6' } : {}}
                 >
                   All
                 </Button>
                 <Button
-                  variant={
-                    filter === "with-stock" ? "success" : "outline-success"
-                  }
+                  variant={filter === "with-stock" ? "success" : "light"}
                   size="sm"
                   onClick={() => handleFilterChange("with-stock")}
+                  style={filter !== "with-stock" ? { border: '1px solid #dee2e6' } : {}}
                 >
                   With Stock
                 </Button>
                 <Button
-                  variant={
-                    filter === "out-of-stock" ? "danger" : "outline-danger"
-                  }
+                  variant={filter === "out-of-stock" ? "danger" : "light"}
                   size="sm"
                   onClick={() => handleFilterChange("out-of-stock")}
+                  style={filter !== "out-of-stock" ? { border: '1px solid #dee2e6' } : {}}
                 >
                   Out of Stock
                 </Button>
               </div>
 
               {/* Search Form */}
-              <InputGroup>
+              <InputGroup style={{ maxWidth: '250px' }}>
                 <Form.Control
                   type="text"
                   placeholder="Search by code or name..."
@@ -225,7 +224,6 @@ const RawMaterialList = () => {
                         <Button
                           onClick={() => openStockModal(material)}
                           variant="outline-info"
-                          size="sm"
                           title="Update Stock"
                         >
                           <i className="fas fa-warehouse"></i>
@@ -234,7 +232,6 @@ const RawMaterialList = () => {
                           as={Link}
                           to={`/raw-materials/edit/${material.id}`}
                           variant="outline-primary"
-                          size="sm"
                           title="Edit Raw Material"
                         >
                           <i className="fas fa-edit"></i>
@@ -244,7 +241,6 @@ const RawMaterialList = () => {
                             handleDelete(material.id, material.name)
                           }
                           variant="outline-danger"
-                          size="sm"
                           title="Delete Raw Material"
                         >
                           <i className="fas fa-trash"></i>

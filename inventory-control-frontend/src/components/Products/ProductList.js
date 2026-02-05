@@ -61,11 +61,11 @@ const ProductList = () => {
 
   return (
     <div>
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h1>Products</h1>
-        <Button as={Link} to="/products/new" variant="primary">
+      <div className="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center mb-4 gap-2">
+        <h1 className="mb-2 mb-sm-0">Products</h1>
+        <Button as={Link} to="/products/new" variant="primary" size="sm">
           <i className="fas fa-plus me-1"></i>
-          Add New Product
+          New Product
         </Button>
       </div>
 
@@ -152,7 +152,6 @@ const ProductList = () => {
                           as={Link}
                           to={`/products/edit/${product.id}`}
                           variant="outline-primary"
-                          size="sm"
                           title="Edit Product"
                         >
                           <i className="fas fa-edit"></i>
@@ -160,7 +159,6 @@ const ProductList = () => {
                         <Button
                           onClick={() => handleDelete(product.id, product.name)}
                           variant="outline-danger"
-                          size="sm"
                           title="Delete Product"
                         >
                           <i className="fas fa-trash"></i>

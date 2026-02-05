@@ -129,11 +129,12 @@ const ProductForm = () => {
 
   return (
     <div>
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h1>{isEditing ? "Edit Product" : "New Product"}</h1>
+      <div className="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center mb-4 gap-2">
+        <h1 className="mb-2 mb-sm-0">{isEditing ? "Edit Product" : "New Product"}</h1>
         <Button
           variant="outline-secondary"
           onClick={() => navigate("/products")}
+          size="sm"
         >
           <i className="fas fa-arrow-left me-1"></i>
           Back to Products
@@ -161,8 +162,13 @@ const ProductForm = () => {
                   <Form.Label>Product Code</Form.Label>
                   <Form.Control
                     type="text"
+                    maxLength={20}
                     {...register("code", {
                       required: "Product code is required",
+                      maxLength: {
+                        value: 20,
+                        message: "Code must be at most 20 characters",
+                      },
                     })}
                     isInvalid={errors.code}
                     placeholder="Enter product code"
@@ -178,8 +184,13 @@ const ProductForm = () => {
                   <Form.Label>Product Name</Form.Label>
                   <Form.Control
                     type="text"
+                    maxLength={70}
                     {...register("name", {
                       required: "Product name is required",
+                      maxLength: {
+                        value: 70,
+                        message: "Name must be at most 70 characters",
+                      },
                     })}
                     isInvalid={errors.name}
                     placeholder="Enter product name"
@@ -196,12 +207,17 @@ const ProductForm = () => {
                   <Form.Control
                     type="number"
                     step="0.01"
-                    min="0"
+                    min="0.01"
+                    max="99999999.99"
                     {...register("value", {
                       required: "Product value is required",
                       min: {
                         value: 0.01,
                         message: "Value must be greater than 0",
+                      },
+                      max: {
+                        value: 99999999.99,
+                        message: "Value must be less than 100 million",
                       },
                     })}
                     isInvalid={errors.value}

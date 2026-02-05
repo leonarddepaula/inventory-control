@@ -89,14 +89,15 @@ const RawMaterialForm = () => {
 
   return (
     <div>
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h1>{isEditing ? "Edit Raw Material" : "New Raw Material"}</h1>
+      <div className="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center mb-4 gap-2">
+        <h1 className="mb-2 mb-sm-0">{isEditing ? "Edit Raw Material" : "New Raw Material"}</h1>
         <Button
           variant="outline-secondary"
           onClick={() => navigate("/raw-materials")}
+          size="sm"
         >
           <i className="fas fa-arrow-left me-1"></i>
-          Back to Raw Materials
+          Back to Materials
         </Button>
       </div>
 
@@ -125,8 +126,13 @@ const RawMaterialForm = () => {
                   </Form.Label>
                   <Form.Control
                     type="text"
+                    maxLength={20}
                     {...register("code", {
                       required: "Raw material code is required",
+                      maxLength: {
+                        value: 20,
+                        message: "Code must be at most 20 characters",
+                      },
                     })}
                     isInvalid={errors.code}
                     placeholder="Enter raw material code (e.g., MAT-001)"
@@ -143,11 +149,16 @@ const RawMaterialForm = () => {
                   </Form.Label>
                   <Form.Control
                     type="text"
+                    maxLength={70}
                     {...register("name", {
                       required: "Raw material name is required",
                       minLength: {
-                        value: 2,
-                        message: "Name must be at least 2 characters",
+                        value: 1,
+                        message: "Name must be at least 1 character",
+                      },
+                      maxLength: {
+                        value: 70,
+                        message: "Name must be at most 70 characters",
                       },
                     })}
                     isInvalid={errors.name}
@@ -166,11 +177,16 @@ const RawMaterialForm = () => {
                   <Form.Control
                     type="number"
                     min="0"
+                    max="999999999"
                     {...register("stockQuantity", {
                       required: "Stock quantity is required",
                       min: {
                         value: 0,
                         message: "Stock quantity must be non-negative",
+                      },
+                      max: {
+                        value: 999999999,
+                        message: "Stock quantity must be less than 1 billion",
                       },
                       pattern: {
                         value: /^\d+$/,

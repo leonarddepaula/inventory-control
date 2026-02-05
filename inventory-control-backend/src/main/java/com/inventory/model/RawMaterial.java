@@ -9,9 +9,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,15 +26,18 @@ public class RawMaterial {
     private Long id;
     
     @NotBlank(message = "Raw material code is required")
-    @Column(nullable = false, unique = true)
+    @Size(min = 1, max = 20, message = "Code must be between 1 and 20 characters")
+    @Column(nullable = false, unique = true, length = 20)
     private String code;
 
     @NotBlank(message = "Raw material name is required")
-    @Column(nullable = false)
+    @Size(min = 1, max = 70, message = "Name must be between 1 and 70 characters")
+    @Column(nullable = false, length = 70)
     private String name;
     
     @NotNull(message = "Stock quantity is required")
     @Min(value = 0, message = "Stock quantity must be non-negative")
+    @Max(value = 999999999, message = "Stock quantity must be less than 1 billion")
     @Column(nullable = false)
     private Integer stockQuantity;
     

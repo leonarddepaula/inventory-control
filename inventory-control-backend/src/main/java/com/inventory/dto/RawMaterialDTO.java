@@ -1,21 +1,26 @@
 package com.inventory.dto;
 
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 public class RawMaterialDTO {
     
     private Long id;
     
     @NotBlank(message = "Raw material code is required")
+    @Size(min = 1, max = 20, message = "Code must be between 1 and 20 characters")
     private String code;
 
     @NotBlank(message = "Raw material name is required")
+    @Size(min = 1, max = 70, message = "Name must be between 1 and 70 characters")
     private String name;
     
     @NotNull(message = "Stock quantity is required")
     @Min(value = 0, message = "Stock quantity must be non-negative")
+    @Max(value = 999999999, message = "Stock quantity must be less than 1 billion")
     private Integer stockQuantity;
     
     public RawMaterialDTO() {}
