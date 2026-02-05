@@ -1,0 +1,17 @@
+com/inventory/repository/ProductRepository.class
+com/inventory/repository/RawMaterialRepository.class
+com/inventory/controller/ProductController.class
+com/inventory/InventoryControlApplication.class
+com/inventory/dto/ProductRawMaterialDTO.class
+com/inventory/service/RawMaterialService.class
+com/inventory/model/Product.class
+com/inventory/service/ProductService.class
+com/inventory/model/ProductRawMaterialId.class
+com/inventory/repository/ProductRawMaterialRepository.class
+com/inventory/model/ProductRawMaterial.class
+com/inventory/model/RawMaterial.class
+com/inventory/dto/RawMaterialDTO.class
+com/inventory/dto/ProductDTO.class
+com/inventory/config/CorsConfig.class
+com/inventory/controller/RawMaterialController.class
+com/inventory/dto/ProductionSuggestionDTO.class
