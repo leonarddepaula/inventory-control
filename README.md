@@ -47,15 +47,17 @@ Sistema completo de controle de estoque para indústrias que produzem produtos d
 
 - Cadastro completo com código, nome e valor
 - Associação com matérias-primas e quantidades necessárias
-- Busca e filtros avançados
-- Validação de dados de entrada
+- Pesquisa instantânea por código ou nome
+- Validação de dados de entrada (tamanho máximo de campos)
 
 ### 📦 Gestão de Matérias-Primas
 
+- Cadastro completo com código, nome e quantidade em estoque
 - Controle de estoque com quantidade disponível
 - Alertas visuais para estoque baixo/zerado
 - Atualização rápida de quantidades
-- Histórico de movimentações
+- Filtros por status (com estoque, sem estoque)
+- Pesquisa instantânea por código ou nome
 
 ### 💡 Sugestões de Produção Inteligentes
 
@@ -111,14 +113,16 @@ npm start
 
 #### Product (Produto)
 
-- `id`: Identificador único
-- `name`: Nome do produto
+- `id`: Identificador único (auto-gerado)
+- `code`: Código único do produto (máx. 20 caracteres)
+- `name`: Nome do produto (máx. 70 caracteres)
 - `value`: Valor unitário do produto
 
 #### RawMaterial (Matéria-Prima)
 
-- `id`: Identificador único
-- `name`: Nome da matéria-prima
+- `id`: Identificador único (auto-gerado)
+- `code`: Código único da matéria-prima (máx. 20 caracteres)
+- `name`: Nome da matéria-prima (máx. 70 caracteres)
 - `stock_quantity`: Quantidade em estoque
 
 #### ProductRawMaterial (Associação)
@@ -154,24 +158,30 @@ Valor_Total = Quantidade_Máxima × Valor_Unitário_Produto
 
 ### Matérias-Primas Incluídas
 
-- **Steel** (1000 units) - Aço para estruturas
-- **Plastic** (500 units) - Plástico para acabamentos
-- **Rubber** (300 units) - Borracha para vedações
-- **Glass** (200 units) - Vidro para componentes
-- **Aluminum** (150 units) - Alumínio para peças leves
+| Código | Nome | Estoque |
+|--------|------|---------|
+| MAT-001 | Farinha de Trigo | 100 unidades |
+| MAT-002 | Açúcar | 80 unidades |
+| MAT-003 | Ovos | 200 unidades |
+| MAT-004 | Leite | 50 unidades |
+| MAT-005 | Manteiga | 40 unidades |
+| MAT-006 | Chocolate em Pó | 30 unidades |
+| MAT-007 | Fermento | 25 unidades |
 
 ### Produtos de Exemplo
 
-- **Car Wheel** ($250.00) - Roda automotiva
-- **Smartphone Case** ($15.50) - Capa protetora
-- **Office Chair** ($180.00) - Cadeira ergonômica
-- **Water Bottle** ($12.00) - Garrafa térmica
-- **Laptop Stand** ($45.00) - Suporte para notebook
+| Código | Nome | Valor |
+|--------|------|-------|
+| PROD-001 | Bolo de Chocolate | R$ 45,00 |
+| PROD-002 | Pão Caseiro | R$ 12,00 |
+| PROD-003 | Pudim de Leite | R$ 25,00 |
+| PROD-004 | Biscoito Amanteigado | R$ 18,00 |
+| PROD-005 | Brownie | R$ 8,00 |
 
 ## Estrutura do Projeto
 
 ```
-JAVA/
+inventory-control/
 ├── inventory-control-backend/     # API Spring Boot
 │   ├── src/main/java/com/inventory/
 │   │   ├── controller/           # Controllers REST
@@ -199,7 +209,7 @@ JAVA/
 
 ### Backend
 
-- **Java 17** - Linguagem principal
+- **Java 21+** - Linguagem principal (compatível com Java 23)
 - **Spring Boot 3.2.1** - Framework principal
 - **Spring Data JPA** - Persistência de dados
 - **Spring Web** - APIs REST
@@ -223,19 +233,25 @@ JAVA/
 ### Produtos
 
 - `GET /api/products` - Listar produtos
+- `GET /api/products/{id}` - Buscar produto por ID
 - `POST /api/products` - Criar produto
 - `PUT /api/products/{id}` - Atualizar produto
 - `DELETE /api/products/{id}` - Excluir produto
-- `GET /api/products/search?name=` - Buscar produtos
-- `GET /api/products/production-suggestions` - Sugestões
+- `GET /api/products/search?name=` - Buscar produtos por nome
+- `GET /api/products/production-suggestions` - Sugestões de produção
+- `POST /api/products/produce` - Produzir produto (baixa no estoque)
 
 ### Matérias-Primas
 
 - `GET /api/raw-materials` - Listar matérias-primas
+- `GET /api/raw-materials/{id}` - Buscar matéria-prima por ID
 - `POST /api/raw-materials` - Criar matéria-prima
 - `PUT /api/raw-materials/{id}` - Atualizar matéria-prima
 - `PATCH /api/raw-materials/{id}/stock` - Atualizar estoque
 - `DELETE /api/raw-materials/{id}` - Excluir matéria-prima
+- `GET /api/raw-materials/search?name=` - Buscar por nome
+- `GET /api/raw-materials/with-stock` - Listar com estoque disponível
+- `GET /api/raw-materials/out-of-stock` - Listar sem estoque
 
 ## Próximos Passos
 
